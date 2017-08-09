@@ -1,0 +1,10 @@
+[package]
+name = "siren"
+version = "0.1.0"
+authors = ["Alessio Biancalana <dottorblaster@gmail.com>"]
+
+[dependencies]
+yaml-rust = "0.3"
+clap = "~2.19.0"
+serde = "0.9"
+serde_yaml = "0.6"
