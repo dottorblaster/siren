@@ -4,15 +4,15 @@ use self::serde_json::Error;
 
 #[derive(Serialize, Deserialize)]
 pub struct Task {
-    name: String,
-    description: String,
-    command: String,
+    pub name: String,
+    pub description: String,
+    pub command: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
-    switch_cwd: bool,
-    tasks: Vec<Task>,
+    pub switch_cwd: bool,
+    pub tasks: Vec<Task>,
 }
 
 fn configparse(confstring: String) -> Result<Config, Error> {
@@ -21,12 +21,14 @@ fn configparse(confstring: String) -> Result<Config, Error> {
 }
 
 pub fn string_to_config(confstring: String) -> Config {
+    use std::error::Error;
     let configuration = match configparse(confstring) {
         Ok(c) => c,
-        Err(err) => Config { switch_cwd: true, tasks: Vec::new() }
+        Err(err) => {
+            println!("{}", err.description());
+            Config { switch_cwd: false, tasks: Vec::new() }
+        }
     };
-
-    println!("{}", configuration.switch_cwd);
 
     configuration
 }
