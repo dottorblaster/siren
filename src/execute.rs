@@ -18,12 +18,12 @@ fn task_success(task: &Task, output: Output) {
 }
 
 fn task_failure(task: &Task, output: Output) {
-    let stdout = ANSIString::from(String::from_utf8(output.stdout).unwrap());
+    let stderr = ANSIString::from(String::from_utf8(output.stderr).unwrap());
     println!(
         "{} {}\n{}",
         Yellow.paint(format!("{}", task.name)),
         Red.paint("fail!"),
-        stdout
+        stderr
     );
 }
 
