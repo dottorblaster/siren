@@ -1,7 +1,12 @@
 [package]
 name = "siren"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["Alessio Biancalana <dottorblaster@gmail.com>"]
+description = "Your friendly neighborhood monitoring CLI tool."
+homepage = "https://github.com/dottorblaster/siren"
+repository = "https://github.com/dottorblaster/siren"
+readme = "README.md"
+license = "MIT"
 
 [dependencies]
 ansi_term = "0.9.0"
