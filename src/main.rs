@@ -12,6 +12,14 @@ use clap::{Arg, App};
 mod parse_config;
 mod execute;
 
+fn parentpath(path: String) -> String {
+    let mut v: Vec<&str> = path.split("/").collect();
+    let len = v.len();
+    v.remove(len-1);
+    let retval: String = v.join("/");
+    retval
+}
+
 fn read_sirenfile(sirenfile_path: String) -> Result<String, IoError> {
     let mut sirenfile = File::open(sirenfile_path)?;
     let mut string_json = String::new();
@@ -43,5 +51,9 @@ fn main() {
         }
     };
     let conf = parse_config::string_to_config(configstring);
-    execute::run(conf.tasks);
+    let cwd_path = match conf.switch_cwd {
+        true => parentpath(matches.value_of("file").unwrap_or("./Sirenfile.json").to_owned()),
+        false => String::from(".")
+    };
+    execute::run(conf.tasks, cwd_path);
 }
