@@ -2,7 +2,7 @@ extern crate serde;
 extern crate serde_json;
 use self::serde_json::Error;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Task {
     pub name: String,
     pub description: String,
