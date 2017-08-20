@@ -1,6 +1,6 @@
 [package]
 name = "siren"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["Alessio Biancalana <dottorblaster@gmail.com>"]
 description = "Your friendly neighborhood monitoring CLI tool."
 homepage = "https://github.com/dottorblaster/siren"
