@@ -5,15 +5,15 @@ use std::thread;
 use std::process::Command;
 use std::process::Output;
 
-use self::ansi_term::Colour::{Red, Green, Yellow};
+use self::ansi_term::Colour::{Red, Green, Yellow, Black};
 use self::ansi_term::ANSIString;
 
 fn task_success(task: Task, output: Output) {
     let stdout = ANSIString::from(String::from_utf8(output.stdout).unwrap());
     println!(
-        "{} {}\n{}",
+        "{} {}\n{}\n",
+        Black.bold().on(Green).paint("  SUCCESS  "),
         Yellow.paint(format!("{}", task.name)),
-        Green.paint("success!"),
         stdout
     );
 }
@@ -21,15 +21,16 @@ fn task_success(task: Task, output: Output) {
 fn task_failure(task: Task, output: Output) {
     let stderr = ANSIString::from(String::from_utf8(output.stderr).unwrap());
     println!(
-        "{} {}\n{}",
+        "{} {}\n{}\n",
+        Black.bold().on(Red).paint("  FAIL  "),
         Yellow.paint(format!("{}", task.name)),
-        Red.paint("fail!"),
         stderr
     );
 }
 
 pub fn run(tasks: Vec<Task>, cwd_path: String) -> bool {
     let mut handles = Vec::with_capacity(tasks.len());
+    println!("\n");
     for task in &tasks {
         let (data, path) = (task.clone(), cwd_path.clone());
         let child = thread::spawn(move || {
