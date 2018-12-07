@@ -39,6 +39,12 @@ fn main() {
             .value_name("FILE")
             .help("Sets a custom Sirenfile")
             .takes_value(true))
+        .arg(Arg::with_name("json-output")
+            .short("j")
+            .long("json-output")
+            .value_name("JSON")
+            .help("Enable JSON output")
+            .takes_value(false))
         .get_matches();
 
     let sirenfile_path = matches.value_of("file").unwrap_or("./Sirenfile.json").to_owned();
