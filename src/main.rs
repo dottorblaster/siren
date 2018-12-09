@@ -11,6 +11,7 @@ use clap::{Arg, App};
 
 mod parse_config;
 mod execute;
+mod task_output;
 
 fn parentpath(path: String) -> String {
     let mut v: Vec<&str> = path.split("/").collect();
@@ -48,6 +49,7 @@ fn main() {
         .get_matches();
 
     let sirenfile_path = matches.value_of("file").unwrap_or("./Sirenfile.json").to_owned();
+    let output_json = matches.is_present("json-output");
 
     let configstring = match read_sirenfile(sirenfile_path) {
         Ok(jsoncontent) => jsoncontent,
@@ -61,5 +63,5 @@ fn main() {
         true => parentpath(matches.value_of("file").unwrap_or("./Sirenfile.json").to_owned()),
         false => String::from(".")
     };
-    execute::run(conf.tasks, cwd_path);
+    execute::run(conf.tasks, cwd_path, output_json);
 }
