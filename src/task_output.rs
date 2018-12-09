@@ -3,16 +3,16 @@ extern crate serde_json;
 
 #[derive(Serialize, Clone)]
 pub struct TaskOutput {
-    outcome: String,
-    code: String,
-    name: String,
-    description: String,
-    command: String,
+    pub outcome: String,
+    pub code: String,
+    pub name: String,
+    pub description: String,
+    pub command: String,
 }
 
 pub type Tasks = Vec<TaskOutput>;
 
 #[derive(Serialize, Clone)]
-pub struct Output {
+pub struct SerializableOutput {
     pub tasks: Vec<TaskOutput>,
 }
