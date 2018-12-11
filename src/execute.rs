@@ -2,8 +2,6 @@ extern crate ansi_term;
 extern crate serde_json;
 
 use parse_config::Task;
-use task_output::TaskOutput;
-use task_output::Tasks;
 use task_output::SerializableOutput;
 use task_output;
 use std::sync::{Mutex, Arc};
@@ -38,6 +36,14 @@ fn task_failure(task: Task, output: Output, json: bool) {
     }
 }
 
+fn print_json(outputs: Arc<Mutex<Vec<task_output::TaskOutput>>>, json: bool) {
+    if json == true {
+        let slice = &*outputs.lock().unwrap();
+        let serializable_output = SerializableOutput { tasks: slice.to_vec() };
+        println!("{}", serde_json::to_string(&serializable_output).unwrap());
+    }
+}
+
 pub fn run(tasks: Vec<Task>, cwd_path: String, json_output: bool) -> bool {
     let outputs = Arc::new(Mutex::new(task_output::Tasks::with_capacity(tasks.len())));
     let mut handles = Vec::with_capacity(tasks.len());
@@ -56,13 +62,7 @@ pub fn run(tasks: Vec<Task>, cwd_path: String, json_output: bool) -> bool {
                 .output()
                 .expect("command failed");
             let cloned_output = command_output.clone();
-            list.push(TaskOutput {
-                outcome: String::from_utf8(cloned_output.stdout).unwrap(),
-                code: cloned_output.status.code().unwrap().to_string(),
-                name: task_data.name,
-                description: task_data.description,
-                command: task_data.command,
-            });
+            list.push(task_output::build_task_output(cloned_output, task_data));
             match command_output.status.code() {
                 Some(0) => task_success(data, command_output, json_output),
                 Some(_) => task_failure(data, command_output, json_output),
@@ -72,10 +72,6 @@ pub fn run(tasks: Vec<Task>, cwd_path: String, json_output: bool) -> bool {
         handles.push(child);
     }
     for handle in handles { handle.join().unwrap(); }
-    if json_output == true {
-        let slice = &*outputs.lock().unwrap();
-        let serializable_output = SerializableOutput { tasks: slice.to_vec() };
-        println!("{}", serde_json::to_string(&serializable_output).unwrap());
-    }
+    print_json(outputs, json_output);
     true
 }
