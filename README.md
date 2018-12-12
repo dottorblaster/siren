@@ -39,6 +39,17 @@ You can also run Siren with a different Sirenfile than the default one:
 $ siren --file my/personal/checks/Sirenfile.json
 ```
 
+## JSON output
+Users can decide to have a recap of all tasks in JSON format instead of the plain text/console one.
+
+This can be done using the `--json-output` flag:
+
+```sh
+$ siren --json-output
+```
+
+This is meant for further integrations like complex systems where Siren is only a piece of the puzzle.
+
 ## Configuration options
 Here the fields you can configure in your `Sirenfile`:
 - `switch_cwd`: Specifies if you want the current working directory to be changed to the one containing the `Sirenfile`. Useful if you want to write commands relative to that relative path.
