@@ -11,6 +11,7 @@ use clap::{Arg, App};
 
 mod parse_config;
 mod execute;
+mod task_output;
 
 fn parentpath(path: String) -> String {
     let mut v: Vec<&str> = path.split("/").collect();
@@ -30,7 +31,7 @@ fn read_sirenfile(sirenfile_path: String) -> Result<String, IoError> {
 
 fn main() {
     let matches = App::new("Siren")
-        .version("1.0.3")
+        .version("1.1.0")
         .author("Alessio Biancalana <dottorblaster@gmail.com>")
         .about("Your tiny friendly rusty neighborhood monitoring CLI tool")
         .arg(Arg::with_name("file")
@@ -39,9 +40,16 @@ fn main() {
             .value_name("FILE")
             .help("Sets a custom Sirenfile")
             .takes_value(true))
+        .arg(Arg::with_name("json-output")
+            .short("j")
+            .long("json-output")
+            .value_name("JSON")
+            .help("Enable JSON output")
+            .takes_value(false))
         .get_matches();
 
     let sirenfile_path = matches.value_of("file").unwrap_or("./Sirenfile.json").to_owned();
+    let output_json = matches.is_present("json-output");
 
     let configstring = match read_sirenfile(sirenfile_path) {
         Ok(jsoncontent) => jsoncontent,
@@ -55,5 +63,5 @@ fn main() {
         true => parentpath(matches.value_of("file").unwrap_or("./Sirenfile.json").to_owned()),
         false => String::from(".")
     };
-    execute::run(conf.tasks, cwd_path);
+    execute::run(conf.tasks, cwd_path, output_json);
 }
