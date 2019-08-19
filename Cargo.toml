@@ -1,6 +1,6 @@
 [package]
 name = "siren"
-version = "1.1.1"
+version = "1.1.2"
 authors = ["Alessio Biancalana <dottorblaster@gmail.com>"]
 description = "Your friendly neighborhood monitoring CLI tool."
 homepage = "https://github.com/dottorblaster/siren"
@@ -9,8 +9,8 @@ readme = "README.md"
 license = "MIT"
 
 [dependencies]
-ansi_term = "0.11.0"
-clap = "~2.32.0"
-serde = "1.0.82"
-serde_json = "1.0.33"
-serde_derive = "1.0.82"
+ansi_term = "~0.12.0"
+clap = "~2.33.0"
+serde = "~1.0.99"
+serde_json = "~1.0.40"
+serde_derive = "~1.0.99"
