@@ -8,6 +8,7 @@ use std::sync::{Mutex, Arc};
 use std::thread;
 use std::process::Command;
 use std::process::Output;
+use std::fs;
 
 use self::ansi_term::Colour::{Red, Green, Yellow, Black};
 use self::ansi_term::ANSIString;
@@ -56,9 +57,12 @@ pub fn run(tasks: Vec<Task>, cwd_path: String, json_output: bool) -> bool {
             let task_data = data.clone();
             let mut iter = local_task.command.split_whitespace();
             let mut list = outputs.lock().unwrap();
-            let command_output = Command::new(iter.nth(0).unwrap())
+            let current_dir = path.clone();
+            let command_canon_path = format!("{:?}/{}", fs::canonicalize(path).unwrap(), iter.nth(0).unwrap())
+                .replace("\"", "");
+            let command_output = Command::new(command_canon_path)
                 .args(iter)
-                .current_dir(path)
+                .current_dir(current_dir)
                 .output()
                 .expect("command failed");
             let cloned_output = command_output.clone();
