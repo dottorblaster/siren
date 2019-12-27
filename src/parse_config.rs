@@ -26,7 +26,10 @@ pub fn string_to_config(confstring: String) -> Config {
         Ok(c) => c,
         Err(err) => {
             println!("{}", err.description());
-            Config { switch_cwd: false, tasks: Vec::new() }
+            Config {
+                switch_cwd: false,
+                tasks: Vec::new(),
+            }
         }
     };
 
