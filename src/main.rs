@@ -31,7 +31,7 @@ fn read_sirenfile(sirenfile_path: String) -> Result<String, IoError> {
 
 fn main() {
     let matches = App::new("Siren")
-        .version("1.1.1")
+        .version("1.2.0")
         .author("Alessio Biancalana <dottorblaster@gmail.com>")
         .about("Your tiny friendly rusty neighborhood monitoring CLI tool")
         .arg(
