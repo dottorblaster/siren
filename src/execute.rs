@@ -58,7 +58,6 @@ pub fn run(tasks: Vec<Task>, cwd_path: String, json_output: bool) -> bool {
             let local_task = data.clone();
             let task_data = data.clone();
             let mut iter = local_task.command.split_whitespace();
-            let mut list = outputs.lock().unwrap();
             let current_dir = path.clone();
             let command_canon_path = format!(
                 "{:?}/{}",
@@ -72,6 +71,7 @@ pub fn run(tasks: Vec<Task>, cwd_path: String, json_output: bool) -> bool {
                 .output()
                 .expect("command failed");
             let cloned_output = command_output.clone();
+            let mut list = outputs.lock().unwrap();
             list.push(task_output::build_task_output(cloned_output, task_data));
             match command_output.status.code() {
                 Some(0) => task_success(data, command_output, json_output),
