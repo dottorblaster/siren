@@ -21,11 +21,10 @@ fn configparse(confstring: String) -> Result<Config, Error> {
 }
 
 pub fn string_to_config(confstring: String) -> Config {
-    use std::error::Error;
     let configuration = match configparse(confstring) {
         Ok(c) => c,
         Err(err) => {
-            println!("{}", err.description());
+            println!("Error parsing Sirenfile!\n{}", err.to_string());
             Config {
                 switch_cwd: false,
                 tasks: Vec::new(),

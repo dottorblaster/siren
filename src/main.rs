@@ -2,7 +2,6 @@
 extern crate serde_derive;
 extern crate clap;
 
-use std::error::Error;
 use std::fs::File;
 use std::io::Error as IoError;
 use std::io::Read;
@@ -61,7 +60,7 @@ fn main() {
     let configstring = match read_sirenfile(sirenfile_path) {
         Ok(jsoncontent) => jsoncontent,
         Err(err) => {
-            println!("Error! {}", err.description());
+            println!("Error! Probably Sirenfile is missing\n{}", err.to_string());
             String::new()
         }
     };
