@@ -34,16 +34,16 @@ fn main() {
         .author("Alessio Biancalana <dottorblaster@gmail.com>")
         .about("Your tiny friendly rusty neighborhood monitoring CLI tool")
         .arg(
-            Arg::with_name("file")
-                .short("f")
+            Arg::new("file")
+                .short('f')
                 .long("file")
                 .value_name("FILE")
                 .help("Sets a custom Sirenfile")
                 .takes_value(true),
         )
         .arg(
-            Arg::with_name("json-output")
-                .short("j")
+            Arg::new("json-output")
+                .short('j')
                 .long("json-output")
                 .value_name("JSON")
                 .help("Enable JSON output")
